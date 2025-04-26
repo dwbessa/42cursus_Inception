@@ -26,4 +26,13 @@ fclean: down
 	@docker system prune --all
 	@sudo rm -rf /home/${USER}/data
 
-.PHONY: all build down clean fclean info env
+hosts:
+	@echo "127.0.0.1 dbessa.42.fr" | sudo tee -a /etc/hosts
+
+wp-admin: hosts
+	@echo "Opening WordPress admin. Use these credentials:"
+	@echo "Username: ${ADM_WP_NAME} (defined in .env file)"
+	@echo "Password: Check secrets/adm_wp_password.txt"
+	@xdg-open https://dbessa.42.fr/wp-admin/ 2>/dev/null || echo "Please open https://dbessa.42.fr/wp-admin/ in your browser"
+
+.PHONY: all build down clean fclean info env hosts wp-admin
